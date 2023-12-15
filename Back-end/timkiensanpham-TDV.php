@@ -7,22 +7,15 @@
 </head>
 <body>
     <?php 
-        // Đọc dữ liệu và hiển thị
-        //1. kết nối
-        include("ketnoi_tdv.php");
-        //2. tạo truy vấn đọc dữ liệu từ bảng
-        $sql_tdv = "SELECT * FROM PRODUCT_TDV WHERE 1=1 ";
-        // xử lý khi tìm kiếm
+        include("ketnoi_TDV.php");
+        $sql_tdv = "SELECT * FROM sanpham_tdv WHERE 1=1 ";
         if(isset($_GET["btnSearch"])){
             $keyword = $_GET["keyword"];
             if(isset($keyword)){
-                $sql_tdv .=" and PRONAME_TDV like '%$keyword%'";
+                $sql_tdv .=" and TenSP_TDV like '%$keyword%'";
             }
         }
-        //3. Thực thi câu lệnh truy vấn
         $result_tdv = $conn_tdv->query($sql_tdv);
-        //4. duyệt và hiển thị -> tbody
-
     ?>
     <section>
         <h1>DANH SÁCH SẢN PHẨM - TRẦN DUY VŨ</h1>
@@ -40,12 +33,8 @@
                     <th>STT</th>
                     <th>Mã</th>
                     <th>Tên</th>
-                    <th>Số lượng</th>
                     <th>Đơn giá</th>
-                    <th>Thành tiền</th>
                     <th>Trạng thái</th>
-                    <th>Mã loại</th>
-                    <th>Chức năng</th>
                 </tr>
             </thead>
             <tbody>
@@ -57,19 +46,16 @@
                 ?>
                     <tr>
                         <td><?php echo $stt; ?></td>
-                        <td><?php echo $row_tdv["PROID_TDV"]; ?></td>
-                        <td><?php echo $row_tdv["PRONAME_TDV"]; ?></td>
-                        <td><?php echo $row_tdv["QUANTITY_TDV"]; ?></td>
-                        <td><?php echo $row_tdv["QUANTITY_TDV"]*$row_tdv["PRICE_TDV"]; ?></td>
-                        <td><?php echo $row_tdv["PRICE_TDV"]; ?></td>
-                        <td><?php echo $row_tdv["TRANGTHAI_TDV"]; ?></td>
-                        <td><?php echo $row_tdv["CATID_TDV"]; ?></td>
+                        <td><?php echo $row_tdv["MaSP_TDV"]; ?></td>
+                        <td><?php echo $row_tdv["TenSP_TDV"]; ?></td>
+                        <td><?php echo $row_tdv["GiaSP_TDV"]*$row_tdv["GiaSP_TDV"]; ?></td>
+                        <td><?php echo $row_tdv["TrangThai_TDV"]; ?></td>
                         <td>
-                            <a href="product-edit-tdv.php?proid_tdv=<?php echo $row_tdv["PROID_TDV"];?>">
+                            <a href="suasanpham.php?MaSP_TDV=<?php echo $row_tdv["MaSP_TDV"];?>">
                                 Sửa
                             </a>
                             |
-                            <a href="product-list-tdv.php?proid_tdv=<?php echo $row_tdv["PROID_TDV"];?>"
+                            <a href="xoasanpham.php?MaSP_TDV=<?php echo $row_tdv["MaSP_TDV"];?>"
                                 onclick="if(confirm('Bạn có muốn xóa không')){return true;}else{return false;}">
                                 Xóa
                             </a>
@@ -88,21 +74,5 @@
             </tbody>
         </table>
     </section>
-
-    <?php 
-        //  xử lý với chức năng xóa
-        if(isset($_GET["proid_tdv"])){
-            // thực hiện xóa sản phẩm theo proid_tdv
-            $proid_tdv = $_GET["proid_tdv"];
-            // tạo truy vấn xóa
-            $sql_delete_tdv = "DELETE FROM PRODUCT_TDV WHERE PROID_TDV='$proid_tdv'";
-            // Thực thi truy vấn
-            if($conn_tdv->query($sql_delete_tdv)){
-                header("Location:product-list-tdv.php");
-            }else{
-                echo "<script> alert('lỗi xóa'); </script>";
-            }
-        }
-    ?>
 </body>
 </html>

@@ -62,6 +62,7 @@
             </tbody>
         </table>
         <a href="themsanpham-TDV.php">Thêm sản phẩm</a>
+        <a href="timkiensanpham-TDV.php">Tìm kiếm sản phẩm</a>
     </section>
 </body>
 </html>

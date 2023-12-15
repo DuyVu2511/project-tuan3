@@ -16,31 +16,6 @@
         }else{
             header("Location: danhsachsanpham-TDV.php");
         }
-        $sql_pb_tdv = "SELECT * FROM `sanpham_tdv` WHERE 1=1";
-        $res_pb_tdv = $conn_tdv->query($sql_pb_tdv);
-
-        $error_messenger_tdv = "";
-        if(isset($_POST["btnSubmit_TDV"])){
-            $MaSP_TDV = $_POST["MaSP_TDV"];
-            $TenSP_TDV = $_POST["TenSP_TDV"];
-            $GiaSP_TDV = $_POST["GiaSP_TDV"];
-            $TrangThai_TDV = $_POST["TrangThai_TDV"];
-
-            
-            $sql_update_tdv = "UPDATE sanpham_tdv SET";
-            $sql_update_tdv .=" MaSP_TDV = '$MaSP_TDV',";
-            $sql_update_tdv .=" TenSP_TDV = '$TenSP_TDV',";
-            $sql_update_tdv .=" GiaSP_TDV = '$GiaSP_TDV',";
-            $sql_update_tdv .=" TrangThai_TDV = '$TrangThai_TDV',";
-            $sql_update_tdv .=" WHERE MaSP_TDV = '$MaSP_TDV',";
-
-
-            if($conn_tdv->query($sql_update_tdv)){
-                header("Location: danhsachsanpham-TDV.php");
-            }else{
-                $error_messenger_tdv="Loi sua du lieu " . mysqli_error($conn_tdv); 
-            }
-        }
     ?>
     <section>
         <h1>Sửa thông tin sản phẩm - Tran Duy Vu</h1>
@@ -85,11 +60,24 @@
                 </tbody>
                 
             </table>
-            <div>
-                <?php echo $error_messenger_tdv; ?>
-            </div>
         </form>
         <a href="danhsachsanpham-TDV.php">Danh sách sản phẩm</a>
     </section>
+    <?php
+        if (isset($_POST["btnSubmit_TDV"])) {
+            $MaSP_TDV = $_POST["MaSP_TDV"];
+            $TenSP_TDV = $_POST["TenSP_TDV"];
+            $GiaSP_TDV = $_POST["GiaSP_TDV"];
+            $TrangThai_TDV = $_POST["TrangThai_TDV"];
+            
+            $sql_update_tdv = "UPDATE sanpham_tdv SET MaSP_TDV='$MaSP_TDV', TenSP_TDV='$TenSP_TDV', GiaSP_TDV='$GiaSP_TDV', TrangThai_TDV='$TrangThai_TDV' WHERE MaSP_TDV='$MaSP_TDV'";
+
+            if ($conn_tdv->query($sql_update_tdv)) {
+                header("Location: danhsachsanpham-TDV.php");
+            } else {
+                echo "<script>alert('Lỗi cập nhật')</script>";
+            }
+        }
+    ?>
 </body>
 </html>
